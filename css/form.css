@@ -1,0 +1,53 @@
+.add-business-form {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: sans-serif;
+}
+
+.add-business-form h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.add-business-form label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.add-business-form input,
+.add-business-form textarea,
+.add-business-form select {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.4rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.add-business-form button {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #ffb400;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+}
+#other-location-container {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
