@@ -3,97 +3,168 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Add your buisness</title>
+    <title>Add your business</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='css/form.css'>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="js/common.js"></script>
-  <script src='js/form.js' defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src='js/common.js'></script>
+    <script src='js/form.js' defer></script>
 </head>
 <body>
     <!-- add-business.html -->
-<form id="businessForm" class="add-business-form">
-  <h2>Add Your Business</h2>
+    <div class="container">
+        <div class="pricing-section">
+            <h2>Choose Your Plan</h2>
+            <div class="pricing-cards">
+                <div class="pricing-card" data-plan="bronze" data-price="1000">
+                    <h3>Bronze</h3>
+                    <div class="price">₦1,000<span>/month</span></div>
+                    <ul>
+                        <li>Basic listing</li>
+                        <li>Standard visibility</li>
+                        <li>Essential features</li>
+                    </ul>
+                    <button class="select-plan-btn">Select Plan</button>
+                </div>
+                <div class="pricing-card" data-plan="silver" data-price="2000">
+                    <h3>Silver</h3>
+                    <div class="price">₦2,000<span>/month</span></div>
+                    <ul>
+                        <li>Enhanced listing</li>
+                        <li>Better visibility</li>
+                        <li>More features</li>
+                    </ul>
+                    <button class="select-plan-btn">Select Plan</button>
+                </div>
+                <div class="pricing-card" data-plan="gold" data-price="3000">
+                    <h3>Gold</h3>
+                    <div class="price">₦3,000<span>/month</span></div>
+                    <ul>
+                        <li>Premium listing</li>
+                        <li>High visibility</li>
+                        <li>Priority placement</li>
+                    </ul>
+                    <button class="select-plan-btn">Select Plan</button>
+                </div>
+                <div class="pricing-card" data-plan="platinum" data-price="5000">
+                    <h3>Platinum</h3>
+                    <div class="price">₦5,000<span>/month</span></div>
+                    <ul>
+                        <li>Featured listing</li>
+                        <li>Maximum visibility</li>
+                        <li>All features included</li>
+                    </ul>
+                    <button class="select-plan-btn">Select Plan</button>
+                </div>
+            </div>
 
-  <label for="name">Business Name</label>
-  <input type="text" id="name" name="name" required>
+            <div class="duration-section" style="display: none;">
+                <h3>Select Duration</h3>
+                <div class="duration-options">
+                    <select id="months" name="months">
+                        <option value="1">1 Month</option>
+                        <option value="2">2 Months</option>
+                        <option value="3">3 Months</option>
+                        <option value="4">4 Months</option>
+                        <option value="5">5 Months</option>
+                        <option value="6">6 Months</option>
+                        <option value="7">7 Months</option>
+                        <option value="8">8 Months</option>
+                        <option value="9">9 Months</option>
+                        <option value="10">10 Months</option>
+                        <option value="11">11 Months</option>
+                        <option value="12">12 Months (40% Discount)</option>
+                    </select>
+                </div>
+                <div class="price-summary">
+                    <div class="base-price">Base Price: <span id="base-price">₦0</span></div>
+                    <div class="discount" id="discount-container" style="display: none;">Discount: <span id="discount-amount">-₦0</span></div>
+                    <div class="total-price">Total Amount: <span id="total-price">₦0</span></div>
+                </div>
+                <button class="proceed-btn">Proceed to Form</button>
+            </div>
+        </div>
 
-  <label for="image">Business Image</label>
-  <input type="file" id="image" name="image" accept="image/*" required>
+        <form id="businessForm" class="add-business-form" style="display: none;">
+            <h2>Add Your Business</h2>
+            
+            <input type="hidden" id="selectedPlan" name="selectedPlan">
+            <input type="hidden" id="selectedMonths" name="selectedMonths">
+            <input type="hidden" id="finalAmount" name="finalAmount">
 
-  <label for="category">Category</label>
-  <select id="category" name="category" required>
-    <option value="">Select Category</option>
-    <option value="food">Food</option>
-    <option value="fashion">Fashion</option>
-    <option value="tech">Tech</option>
-    <option value="service">Service</option>
-    <!-- Add more if needed -->
-  </select>
+            <label for="name">Business Name</label>
+            <input type="text" id="name" name="name" required>
 
-  <label for="description">Description</label>
-  <textarea id="description" name="description" rows="3" required></textarea>
+            <label for="image">Business Image</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
 
-<label for="business_link">Business Link</label>
-<input type="url" id="business_link" name="business_link" placeholder="https://example.com" required>
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                <option value="">Select Category</option>
+                <option value="food">Food</option>
+                <option value="fashion">Fashion</option>
+                <option value="tech">Tech</option>
+                <option value="service">Service</option>
+                <!-- Add more if needed -->
+            </select>
 
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="3" required></textarea>
 
-<select name="location" id="location">
-  <option value="">-- Select Location --</option>
-  <option value="School Junction">School Junction</option>
-  <option value="School Road">School Road</option>
-  <option value="Falex Road">Falex Road</option>
-  <option value="SY8">SY8</option>
-  <option value="ICT">ICT</option>
-  <option value="Irare">Irare</option>
-  <option value="Oye Market">Oye Market</option>
-  <option value="Estate">Estate</option>
-  <option value="Other">Other</option>
-</select>
+            <label for="business_link">Business Link</label>
+            <input type="url" id="business_link" name="business_link" placeholder="https://example.com" required>
 
-<div id="other-location-container" style="display: none; margin-top: 1rem;">
-  <label for="other-location">Please specify:</label>
-  <input type="text" id="other-location" name="other_location" placeholder="Enter location" />
-</div>
+            <label for="location">Location</label>
+            <select name="location" id="location">
+                <option value="">-- Select Location --</option>
+                <option value="School Junction">School Junction</option>
+                <option value="School Road">School Road</option>
+                <option value="Falex Road">Falex Road</option>
+                <option value="SY8">SY8</option>
+                <option value="ICT">ICT</option>
+                <option value="Irare">Irare</option>
+                <option value="Oye Market">Oye Market</option>
+                <option value="Estate">Estate</option>
+                <option value="Other">Other</option>
+            </select>
 
-  <label>Delivery Available?</label>
-  <label><input type="radio" name="delivery" value="Yes" required> Yes</label>
-  <label><input type="radio" name="delivery" value="No" required> No</label>
+            <div id="other-location-container" style="display: none; margin-top: 1rem;">
+                <label for="other-location">Please specify:</label>
+                <input type="text" id="other-location" name="other_location" placeholder="Enter location" />
+            </div>
 
-  <label for="tier">Choose a Plan</label>
-  <select id="tier" name="tier" required>
-    <option value="">Select Tier</option>
-    <option value="standard">Standard (Free Trial)</option>
-    <option value="silver">Silver</option>
-    <option value="gold">Gold</option>
-    <option value="platinum">Platinum</option>
-  </select>
+            <label>Delivery Available?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="delivery" value="Yes" required> Yes</label>
+                <label><input type="radio" name="delivery" value="No" required> No</label>
+            </div>
 
-  <label for="duration">Subscription Duration</label>
-  <select id="duration" name="duration" required>
-    <option value="">Select Duration</option>
-    <option value="monthly">Monthly</option>
-    <option value="yearly">Yearly</option>
-  </select>
-  <label for="school">School</label>
-<select id="school" name="school" onchange="handleSchoolChange()" required>
-  <option value="">-- Select School --</option>
-  <option value="FUOYE">Federal University Oye Ekiti (FUOYE)</option>
-  <option value="EKSU">Ekiti State University (EKSU)</option>
-  <!-- Add more -->
-</select>
+            <label for="school">School</label>
+            <select id="school" name="school" required>
+                <option value="">-- Select School --</option>
+                <option value="FUOYE">Federal University Oye Ekiti (FUOYE)</option>
+                <option value="EKSU">Ekiti State University (EKSU)</option>
+                <!-- Add more -->
+            </select>
 
-<div id="campus-container" style="margin-top: 1rem;">
-  <label for="campus">Campus</label>
-  <select id="campus" name="campus" required>
-    <option value="">-- Select Campus --</option>
-    <!-- This will be dynamically filled based on school -->
-  </select>
-</div>
+            <div id="campus-container" style="margin-top: 1rem;">
+                <label for="campus">Campus</label>
+                <select id="campus" name="campus" required>
+                    <option value="">-- Select Campus --</option>
+                    <!-- This will be dynamically filled based on school -->
+                </select>
+            </div>
 
+            <div class="payment-summary">
+                <h3>Payment Summary</h3>
+                <p>Plan: <span id="summary-plan">None selected</span></p>
+                <p>Duration: <span id="summary-months">0 months</span></p>
+                <p>Total Amount: <span id="summary-amount">₦0</span></p>
+            </div>
 
-  <button type="submit">Submit Business</button>
-</form>
-
+            <button type="submit">Pay & Submit Business</button>
+        </form>
+    </div>
 </body>
 </html>
