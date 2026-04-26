@@ -273,7 +273,7 @@
   color: #007bff;
 }
 
-.filter-dropdown:hover .dropdown-content {
+.dropdown-content.active {
   display: block;
 }
 
@@ -490,12 +490,19 @@
     padding-bottom: 1cqw;
     border-radius: 20%;
     font-weight: 500;
-    margin-left: 8cqw;
+    /* margin-left: 8cqw; */
   }
-  .dilivery-icon {
+  .delivery-icon {
     color: rgb(66, 37, 182);
     width: 7cqw;
     height: 7cqw;
     margin-top: 2cqw;
-    margin-right: 8cqw;
+  }
+  .store-icon {
+    color: rgb(66, 37, 182);
+    width: 7cqw;
+    height: 7cqw;
+    margin-top: 2cqw;
+    margin-right: -62cqw;
+    /* margin-right: -125px; */
   }
