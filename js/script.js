@@ -223,8 +223,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
   filterbusinesses();
 });
+ document.getElementById('reset-filters-mobile').addEventListener('click', () => {
+  currentFilters = {
+    search: '',
+    campus: 'all',
+    location: 'all',
+    specificLocation: 'all',
+    category: 'all',
+    delivery: false,
+    store: false
+  };
+
+  document.getElementById('business-search').value = '';
+  document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.value === 'all');
+  });
+  deliveryToggle.dataset.active = 'false';
+  deliveryToggle.classList.remove('toggle-active');
+  storeToggle.dataset.active = 'false';
+  storeToggle.classList.remove('toggle-active');
+  mobileCampusSelect.value = 'all';
+  mobileLocationSelect.value = 'all';
+  mobileSpecificLocationSelect.value = 'all';
+  mobileCategorySelect.value = 'all';
+  mobileDeliveryToggle.checked = false;
+  mobileStoreToggle.checked = false;
+
+  filterbusinesses();
 });
- 
+document.getElementById('modal-close-btn').addEventListener('click', closeBusinessModal);
+document.getElementById('business-modal-overlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('business-modal-overlay')) closeBusinessModal();
+});
+});
+
 // Main filtering function
 function filterbusinesses() {
   const businessCards = document.querySelectorAll('.business-card');
@@ -326,9 +358,12 @@ async function displaybusinesses() {
 // Create a business card element
 function createBusinessCard(business) {
   const card = document.createElement('a');
-  card.href = business.business_link || '#';
   card.className = 'business-card';
-  card.target = '_blank';
+  card.href = '#';
+  card.addEventListener('click', (e) => {
+    e.preventDefault();
+    openBusinessModal(business);
+});
  
   // Data attributes for filtering
   card.dataset.category = (business.category || '').toLowerCase();
@@ -340,9 +375,6 @@ function createBusinessCard(business) {
  
   const showDeliveryIcon = card.dataset.delivery === 'yes';
   const showStoreIcon = card.dataset.store === 'yes';
-  //     // Replace this
-// card.dataset.delivery = (business.delivery || '').toLowerCase() === 'yes' ? 'yes' : 'no';
-// card.dataset.store = (business.store || '').toLowerCase() === 'yes' ? 'yes' : 'no';
 
 
  
@@ -375,4 +407,48 @@ function createBusinessCard(business) {
  
   return card;
 }
+function openBusinessModal(business) {
+  document.getElementById('modal-img').src = business.image_url || 'https://placehold.co/300x300?text=Business+Image';
+  document.getElementById('modal-name').textContent = business.name || 'Business Name';
+  document.getElementById('modal-visit-btn').href = business.business_link || '#';
+
+  // Build products list
+  const productsList = document.getElementById('modal-products-list');
+  productsList.innerHTML = '';
+  const products = (business.products || '').split(',');
+  products.forEach(product => {
+    const trimmed = product.trim();
+    if (trimmed) {
+      const li = document.createElement('li');
+      li.textContent = trimmed;
+      productsList.appendChild(li);
+    }
+  });
+
+  // Track visit button click
+  const visitBtn = document.getElementById('modal-visit-btn');
+  visitBtn.onclick = (e) => {
+  e.preventDefault();
+  const url = business.business_link || '#';
+
+  // Open immediately — don't wait for Supabase
+  window.open(url, '_blank');
+
+  // Track click in background without blocking navigation
+  supabase
+    .from('businesses')
+    .update({ clicks: (business.clicks || 0) + 1 })
+    .eq('id', business.id);
+};
+  document.querySelector('.business-modal').addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+  document.getElementById('business-modal-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeBusinessModal() {
+  document.getElementById('business-modal-overlay').classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
  

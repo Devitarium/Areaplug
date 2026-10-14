@@ -16,37 +16,37 @@
         <div class="pricing-section">
             <h2>Choose Your Plan</h2>
             <div class="pricing-cards">
-                <div class="pricing-card" data-plan="bronze" data-price="2000">
+                <div class="pricing-card" data-plan="bronze" data-price="5000">
                     <h3>Bronze</h3>
-                    <div class="price">₦2,000<span>/month</span></div>
-                    <ul>
-                        <li>Basic listing</li>
-                        <li>Standard visibility</li>
-                        <li>Essential features</li>
-                    </ul>
-                    <button class="select-plan-btn">Select Plan</button>
-                </div>
-                <div class="pricing-card" data-plan="silver" data-price="5000">
-                    <h3>Silver</h3>
                     <div class="price">₦5,000<span>/month</span></div>
                     <ul>
-                        <li>Enhanced listing</li>
-                        <li>Better visibility</li>
-                        <li>More features</li>
+                        <li>Business listed on the platform</li>
+                        <li>All listing features included</li>
+                        <li>Standard placement</li>
                     </ul>
                     <button class="select-plan-btn">Select Plan</button>
                 </div>
-                <div class="pricing-card" data-plan="gold" data-price="10,000">
-                    <h3>Gold</h3>
+                <div class="pricing-card" data-plan="silver" data-price="10000">
+                    <h3>Silver</h3>
                     <div class="price">₦10,000<span>/month</span></div>
                     <ul>
-                        <li>Premium listing</li>
-                        <li>High visibility</li>
-                        <li>Priority placement</li>
+                        <li>Business listed on the platform</li>
+                        <li>All listing features included</li>
+                        <li>Priority placement over Bronze listings</li>
                     </ul>
                     <button class="select-plan-btn">Select Plan</button>
                 </div>
-                <div class="pricing-card" data-plan="platinum" data-price="50000">
+                <!-- <div class="pricing-card" data-plan="gold" data-price="20,000">
+                    <h3>Gold</h3>
+                    <div class="price">₦20,000<span>/month</span></div>
+                    <ul>
+                        <li>Business listed on the platform</li>
+                        <li>All listing features included</li>
+                        <li>Be seen before any other business</li>
+                    </ul>
+                    <button class="select-plan-btn">Select Plan</button>
+                </div> -->
+                <!-- <div class="pricing-card" data-plan="platinum" data-price="50000">
                     <h3>Platinum</h3>
                     <div class="price">₦50,000<span>/month</span></div>
                     <ul>
@@ -55,7 +55,7 @@
                         <li>All features included</li>
                     </ul>
                     <button class="select-plan-btn">Select Plan</button>
-                </div>
+                </div> -->
             </div>
  
             <div class="duration-section" style="display: none;">
@@ -84,7 +84,43 @@
                 <button class="proceed-btn">Proceed to Form</button>
             </div>
         </div>
- 
+                <!-- Onboarding choice screen -->
+        <div id="onboarding-choice" class="add-business-form" style="display: none;">
+        <h2>How would you like to proceed?</h2>
+        <p style="color: #555; margin-bottom: 1.5rem;">You can fill the form yourself or we can help you get listed.</p>
+
+        <button type="button" class="proceed-btn" id="self-serve-btn">
+            I'll fill it myself
+        </button>
+
+        <div style="text-align: center; margin: 1rem 0; color: #999;">or</div>
+
+        <button type="button" class="proceed-btn" id="assisted-btn" style="background-color: #fff; border: 2px solid #facc15; color: #1f2937;">
+            I need help getting listed
+        </button>
+        </div>
+
+        <!-- Assisted onboarding form -->
+        <div id="assisted-form" class="add-business-form" style="display: none;">
+        <h2>We'll help you get listed</h2>
+        <p style="color: #555; margin-bottom: 1.5rem;">Drop your WhatsApp number and we'll reach out to guide you through the process.</p>
+
+        <label for="lead-phone">WhatsApp Number</label>
+        <input type="tel" id="lead-phone" placeholder="e.g. 08012345678" required>
+
+        <div class="payment-summary" style="margin-top: 1.5rem;">
+            <p>Selected Plan: <strong id="lead-plan-display"></strong></p>
+            <p>Duration: <strong id="lead-months-display"></strong></p>
+        </div>
+
+        <button type="button" id="submit-lead-btn" class="proceed-btn" style="margin-top: 1rem;">
+            Send My Number
+        </button>
+
+        <p id="lead-success" style="display:none; color: green; text-align: center; margin-top: 1rem;">
+            ✓ Received! We'll reach out to you on WhatsApp shortly.
+        </p>
+        </div>
         <form id="businessForm" class="add-business-form" style="display: none;">
             <h2>Add Your Business</h2>
             
@@ -160,6 +196,9 @@
 
             <label for="phone">Phone Number</label>
                 <input type="tel" id="phone" name="phone" required>
+            <label for="products">Products / Services Offered</label>
+                <textarea id="products" name="products" rows="3" placeholder="e.g. Jollof rice, Fried rice, Peppered chicken" required>
+                </textarea>
  
             <div class="payment-summary">
                 <h3>Payment Summary</h3>

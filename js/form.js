@@ -1,8 +1,8 @@
 // Pricing configuration
 const pricingConfig = {
-  bronze: 2000,
-  silver: 5000,
-  gold: 10000,
+  bronze: 5000,
+  silver: 10000,
+  gold: 20000,
   platinum: 50000
 };
  
@@ -54,15 +54,13 @@ function initializeDurationSelector() {
       alert('Please select a plan first');
       return;
     }
-    
+
     document.querySelector('.pricing-section').style.display = 'none';
-    document.getElementById('businessForm').style.display = 'block';
-    
+    document.getElementById('onboarding-choice').style.display = 'block';
+
     document.getElementById('selectedPlan').value = selectedPlan;
     document.getElementById('selectedMonths').value = selectedMonths;
     document.getElementById('finalAmount').value = calculateTotal();
-    
-    updatePaymentSummary();
   });
 }
  
@@ -217,6 +215,7 @@ async function handleFormSubmitWithPayment(e) {
       campus: document.getElementById("campus")?.value || "",
       email: document.getElementById("email").value,
       phone: document.getElementById("phone").value,
+      products: document.getElementById("products").value,
       end_date: calculateEndDate(selectedMonths),
     };
  
@@ -261,12 +260,73 @@ async function handleFormSubmitWithPayment(e) {
     alert(`Error: ${error.message}`);
   }
 }
- 
+ // Self serve — go to normal form
+document.getElementById('self-serve-btn').addEventListener('click', function() {
+  document.getElementById('onboarding-choice').style.display = 'none';
+  document.getElementById('businessForm').style.display = 'block';
+  updatePaymentSummary();
+});
+
+// Assisted — show lead capture form
+document.getElementById('assisted-btn').addEventListener('click', function() {
+  document.getElementById('onboarding-choice').style.display = 'none';
+  document.getElementById('assisted-form').style.display = 'block';
+  document.getElementById('lead-plan-display').textContent = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+  document.getElementById('lead-months-display').textContent = `${selectedMonths} month${selectedMonths !== 1 ? 's' : ''}`;
+});
+
+// Submit lead
+document.getElementById('submit-lead-btn').addEventListener('click', async function() {
+  const phone = document.getElementById('lead-phone').value.trim();
+
+  if (!phone) {
+    alert('Please enter your WhatsApp number');
+    return;
+  }
+
+  const { error } = await supabase.from('leads').insert([{
+    phone: phone,
+    plan: selectedPlan,
+    months: String(selectedMonths)
+  }]);
+
+  if (error) {
+    alert('Something went wrong. Please try again.');
+    console.error(error);
+    return;
+  }
+
+  document.getElementById('lead-phone').style.display = 'none';
+  document.getElementById('submit-lead-btn').style.display = 'none';
+  document.getElementById('lead-success').style.display = 'block';
+});
 // Process payment with Paystack
 async function processPayment(formData) {
   return new Promise((resolve) => {
-    // Simulate payment processing - replace with real Paystack in production
-    const isSuccess = confirm("This is a demo. Click OK to simulate successful payment, or Cancel to simulate failed payment.");
-    resolve(isSuccess);
+    const handler = PaystackPop.setup({
+      key: 'pk_live_f592ba3f2d2dccd4fba5527c74a64bb3135f8c80',
+      email: formData.email,
+      amount: calculateTotal() * 100,
+      currency: 'NGN',
+      ref: 'AP' + Date.now() + Math.floor(Math.random() * 1000),
+      metadata: {
+        custom_fields: [
+          {
+            display_name: "Business Name",
+            variable_name: "business_name",
+            value: formData.name
+          }
+        ]
+      },
+      label: 'AreaPlug',
+      callback: function(response) {
+        resolve(true);
+      },
+      onClose: function() {
+        resolve(false);
+      }
+    });
+
+    handler.openIframe();
   });
 }
