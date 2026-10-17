@@ -35,7 +35,7 @@ async function loadPreview() {
 
         sorted.forEach(b => {
           const card = document.createElement('a');
-          card.href = 'index.html';
+          card.href = 'plug.html';
           card.className = 'preview-card';
           card.innerHTML = `
             <img src="${b.image_url || 'https://placehold.co/220x130?text=Business'}" alt="${b.name}">

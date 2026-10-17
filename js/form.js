@@ -253,7 +253,7 @@ async function handleFormSubmitWithPayment(e) {
     if (insertError) throw new Error(`Database insert failed: ${insertError.message}`);
  
     alert("Payment successful! Business submitted successfully.");
-    window.location.href = 'index.html';
+    window.location.href = 'plug.html';
     
   } catch (error) {
     console.error("Error in form submission:", error);
