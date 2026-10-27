@@ -59,7 +59,7 @@
 }
  
   body {
-    font-family: 'Poppins', sans-serif;
+    font-family: sans-serif;
     background-color: var(--background);
     color: var(--text);
   }
